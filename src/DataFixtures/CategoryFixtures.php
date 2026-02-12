@@ -4,13 +4,19 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class CategoryFixtures extends Fixture
+class CategoryFixtures extends Fixture implements FixtureGroupInterface
 {
     public const CATEGORY_TECH = 'category-tech';
     public const CATEGORY_SCIENCE = 'category-science';
     public const CATEGORY_SPORT = 'category-sport';
+
+    public static function getGroups(): array
+    {
+        return ['category'];
+    }
 
     public function load(ObjectManager $manager): void
     {

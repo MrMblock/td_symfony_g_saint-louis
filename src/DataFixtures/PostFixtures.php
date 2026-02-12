@@ -2,13 +2,20 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Post;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class PostFixtures extends Fixture implements DependentFixtureInterface
+class PostFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
 {
+    public static function getGroups(): array
+    {
+        return ['post'];
+    }
+
     public function load(ObjectManager $manager): void
     {
         $posts = [
@@ -25,7 +32,7 @@ class PostFixtures extends Fixture implements DependentFixtureInterface
             $post->setSlug($slug);
             $post->setContent($content);
             $post->setCreatedAt(new \DateTimeImmutable());
-            $post->setCategory($this->getReference($categoryRef));
+            $post->setCategory($this->getReference($categoryRef, Category::class));
 
             $manager->persist($post);
         }
